@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "WebSocket Server",
+  "version": "1.0",
+  "background": {
+    "scripts": ["background_client.js"],
+    "persists": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content-script.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "webRequest",
+    "ws://localhost/8080"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://*/*"
+    ]
+  }
+}

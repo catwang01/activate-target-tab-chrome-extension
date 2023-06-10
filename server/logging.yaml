@@ -1,0 +1,38 @@
+version: 1
+formatters:
+  brief:
+    format: "%(asctime)s - %(message)s"
+  simple:
+    format: "%(asctime)s - %(name)s - %(lineno)d - %(funcName)s - %(levelname)s - %(message)s"
+handlers:
+  brief_console:
+    class : logging.StreamHandler
+    formatter: brief
+    level   : INFO
+    stream  : ext://sys.stdout
+  simple_console:
+    class : logging.StreamHandler
+    formatter: simple
+    level   : INFO
+    stream  : ext://sys.stdout
+  debugFile:
+    class : logging.FileHandler
+    formatter: simple
+    level: DEBUG
+    filename: debug.log
+    encoding: utf8
+  infoFile:
+    class : logging.FileHandler
+    formatter: simple
+    level: INFO
+    filename: info.log
+    encoding: utf8
+  errorFile:
+    class : logging.FileHandler
+    formatter: simple
+    level: ERROR
+    filename: error.log
+    encoding: utf8
+root:
+  level: DEBUG
+  handlers: [brief_console, debugFile, infoFile, errorFile]
