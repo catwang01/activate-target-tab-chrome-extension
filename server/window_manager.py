@@ -37,15 +37,22 @@ class WindowsWindowManager(IWindowManager):
 class MacOsWindowManager(IWindowManager):
 
     def _is_evernote(self, app) -> bool:
+        if app is None:
+            return False
         return app.localizedName() in {'Evernote', '印象笔记'}
 
     def activate_window(self, title: str) -> bool:
         from AppKit import NSWorkspace
         from Quartz import NSApplicationActivateIgnoringOtherApps
         
-        current_app = NSWorkspace.sharedWorkspace().frontmostApplication()
-        logger.debug(f"Current app: {current_app}")
-        if self._is_evernote(current_app):
+
+        current_app = NSWorkspace.sharedWorkspace().activeApplication()
+        if current_app is None:
+            logger.warning("Current app is None")
+            return False
+        else:
+            logger.debug(f"Current app: {current_app}")
+        if self._is_evernote(current_app.get('NSWorkspaceApplicationKey')):
             logger.info("Skip for evernote")
             return False
         running_apps = NSWorkspace.sharedWorkspace().runningApplications()
