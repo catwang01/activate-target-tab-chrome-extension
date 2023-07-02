@@ -56,10 +56,14 @@ async def handle_websocket(websocket, path):
             await send(websocket, message)
         try:
             await asyncio.wait_for(websocket.recv(), 1)
-        except asyncio.exceptions.TimeoutError as e:
+        except asyncio.exceptions.TimeoutError:
             pass
+        except websockets.exceptions.ConnectionClosedError:
+            logger.info("Exit due to connection closed")
+            break
         except Exception as e:
             logger.error("Accept an unexpected error", exc_info=e)
+            break
 
 async def send(websocket, message):
     payload = json.dumps(message)
