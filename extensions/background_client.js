@@ -24,7 +24,7 @@ function connectWebSocket() {
         const target = filtered[0];
         chrome.tabs.update(target.id, { active: true }, () => {
           socket.send("tab is activated!");
-          chrome.tabs.sendMessage(target.id, {action: "search_notes"});
+          chrome.tabs.sendMessage(target.id, { action: "search_notes" });
         });
       });
     }
@@ -40,6 +40,6 @@ function connectWebSocket() {
 // Connect WebSocket on extension startup
 connectWebSocket();
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log('Message received in background.js', message);
 });
